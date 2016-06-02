@@ -1,16 +1,21 @@
 describe('ToDoController', function() {
   beforeEach(module('toDoApp'));
 
-  var ctrl;
+  var ctrl, httpBackend, ToDoFactory;
+  var toDoData = [{text: "ToDo1", completed: true}, {text: "ToDo2", completed: false}];
 
   beforeEach(inject(function($controller, _ToDoFactory_) {
     ctrl = $controller('ToDoController');
     // https://docs.angularjs.org/api/ngMock/function/angular.mock.inject
     ToDoFactory = _ToDoFactory_;
+    httpBackend = $httpBackend;
+
+     // Mock out our http call
+    httpBackend.expectGET("http://quiet-beach-24792.herokuapp.com/todos.json").respond(toDoData);
+    httpBackend.flush();
   }));
 
   it('initialises with several todos', function() {
-    // Create todos now using the factory
     var todo1 = new ToDoFactory("ToDo1", true);
     var todo2 = new ToDoFactory("ToDo2", false);
 
@@ -19,8 +24,6 @@ describe('ToDoController', function() {
 
   it('adds a new todo', function() {
     ctrl.addToDo('NewToDo');
-
-    // Similarly this now uses a factory
     var todo = new ToDoFactory("NewToDo");
     expect(ctrl.todos.pop()).toEqual(todo);
   });

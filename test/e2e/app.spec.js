@@ -1,3 +1,17 @@
+var mock = require('protractor-http-mock');
+
+beforeEach(function(){
+  mock([{
+    request: {
+      path: 'http://quiet-beach-24792.herokuapp.com/todos.json',
+      method: 'GET'
+    },
+    response: {
+      data: [{text: "ToDo1", completed: true}, {text: "ToDo2", completed: false}]
+    }
+  }]);
+});
+
 describe("app", function() {
   it("should get home page title", function() {
     browser.get('/');
@@ -39,4 +53,8 @@ describe('Todos tracker', function() {
 
     expect(todo.getText()).toMatch("ToDo2: completed");
   });
+});
+
+afterEach(function(){
+  mock.teardown();
 });
