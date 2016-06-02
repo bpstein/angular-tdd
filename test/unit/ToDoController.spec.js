@@ -17,8 +17,13 @@ describe('ToDoController', function() {
 
   it('adds a new todo', function() {
     ctrl.addToDo('NewTodo');
-
     var todo = {text: "NewTodo", completed: false};
     expect(ctrl.todos.pop()).toEqual(todo);
+  });
+
+  it('removes the last todo', function() {
+    var initialCount = ctrl.todos.length;
+    ctrl.removeToDo();
+    expect(ctrl.todos.length).toEqual(initialCount - 1);
   });
 });

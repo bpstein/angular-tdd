@@ -7,4 +7,8 @@ toDoApp.controller('ToDoController', function() {
   self.addToDo = function(todoText) {
     self.todos.push({text: todoText, completed: false});
   };
+
+  self.removeToDo = function() {
+    self.todos.pop();
+  }
 });
